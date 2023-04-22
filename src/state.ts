@@ -1,7 +1,7 @@
 import fs from "fs";
 import type { JsonStudent, JsonEvent, GradeLvl } from "./types";
 
-export class State {
+export default class State {
     // instance vars
     private studentsArr: JsonStudent[];
     private eventsArr: JsonEvent[];

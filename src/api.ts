@@ -21,7 +21,9 @@ declare module "express-serve-static-core" {
     }
 }
 
-export const api: Express = express();
+const api: Express = express();
+export default api;
+
 api.on("mount", (app) => {
     api.set("appState", app.get("appState"));
 });

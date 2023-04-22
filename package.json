@@ -9,7 +9,7 @@
     "install": "",
     "build": "npx tsc",
     "clean": "rm -r node_modules/ && rm -r build/ && rm -r data/",
-    "watch-ts": "npx tsc -w tsconfig-app.json"
+    "watch-ts": "npx tsc -w"
   },
   "author": "Mack Rusing",
   "license": "MIT",

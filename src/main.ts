@@ -1,8 +1,6 @@
-import express from "express";
-import { State } from "./state";
-import { api } from "./api";
-import web from "./web";
-import type { Express } from "express";
+import express, { type Express } from "express";
+import api from "./api";
+import State from "./state";
 
 // app instance
 const app: Express = express();
@@ -14,10 +12,8 @@ app.set("PORT", 8000); // process.env[PORT]
 const appState = new State();
 app.set("appState", appState);
 
-// middleware middleware
-app.use("/resources", express.static("./resources"));
+// routes
 app.use("/api", api);
-app.use("/", web);
 
 // make public
 app.listen(app.get("PORT"), () => {

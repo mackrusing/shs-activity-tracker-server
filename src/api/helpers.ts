@@ -1,5 +1,5 @@
-import { api } from "../api";
-import { State } from "../state";
+import api from "../api";
+import State from "../state";
 
 export function state(): State {
     return api.get("appState");
