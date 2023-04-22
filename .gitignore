@@ -1,0 +1,11 @@
+# node
+node_modules/
+
+# compiled files
+build/
+
+# data files
+data/
+
+# system files
+**/.DS_Store
