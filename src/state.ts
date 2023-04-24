@@ -251,12 +251,70 @@ export default class State {
     // constructors
     //
 
+    // static new(): this | undefined {
+    //     // check for & create data files
+    //     try {
+    //         if (!fs.existsSync("data/")) {
+    //             fs.mkdirSync("data/");
+    //         }
+
+    //         if (!fs.existsSync("data/students.json")) {
+    //             fs.writeFileSync("data/students.json", "[]");
+    //         }
+
+    //         if (!fs.existsSync("data/events.json")) {
+    //             fs.writeFileSync("data/events.json", "[]");
+    //         }
+    //     } catch (e) {
+    //         console.error(`unable to read filesystem: ${e}`);
+    //         return undefined;
+    //     }
+
+    //     // read data from files
+    //     let parsedStudentsJson = JSON.parse(
+    //         fs.readFileSync("data/students.json").toString()
+    //     );
+    //     let parsedEventsJson = JSON.parse(
+    //         fs.readFileSync("data/events.json").toString()
+    //     );
+
+    //     // check & sanatize data
+    //     for (const studentJson of parsedStudentsJson) {
+    //         if (typeof studentJson.id !== "number") {
+    //             console.error("invalid data");
+    //             return undefined;
+    //         }
+
+    //         if (typeof studentJson.first_name !== "string") {
+    //             console.error("invalid data");
+    //             return undefined;
+    //         }
+
+    //         if (typeof studentJson.last_name !== "string") {
+    //             console.error("invalid data");
+    //             return undefined;
+    //         }
+
+    //         if (studentJson.grade_lvl !== 9 && studentJson.grade_lvl !== 10 && studentJson.grade_lvl !== 11 && studentJson.grade_lvl !== 12) {
+    //             console.error("invalid data");
+    //             return undefined;
+    //         }
+
+
+
+    //         let tempStudent: JsonStudent = 
+    //     }
+    // }
+
     // construct instance
     constructor() {
         // arrays
         this.studentsArr = [];
         this.eventsArr = [];
         this.readData();
+
+        // see if data files exists
+        // if 
 
         // get last ids
         let greatestStudentId = 0;
@@ -275,4 +333,46 @@ export default class State {
         }
         this.lastEventId = greatestEventId;
     }
+}
+
+function sanitizeStudentArr(input: any): JsonStudent[] | undefined {
+    const cleanArr: JsonStudent[] = [];
+
+    // check & sanatize data
+    for (const item of input) {
+
+        // check top-level types
+        if (typeof item.id !== "number") {
+            return undefined;
+        }
+        if (typeof item.first_name !== "string") {
+            return undefined;
+        }
+        if (typeof item.last_name !== "string") {
+            return undefined;
+        }
+        if (item.grade_lvl !== 9 && item.grade_lvl !== 10 && item.grade_lvl !== 11 && item.grade_lvl !== 12) {
+            return undefined;
+        }
+
+        // check completed events arr
+        const cleanCompletedEvents: number[] = [];
+        for (const event of item.completed_events) {
+            if (typeof event !== "number") {
+                return undefined;
+            }
+
+            cleanCompletedEvents.push(event);
+        }
+
+        cleanArr.push({
+            id: item.id,
+            first_name: item.first_name,
+            last_name: item.last_name,
+            grade_lvl: item.grade_lvl,
+            completed_events: cleanCompletedEvents
+        });
+    }
+
+    return cleanArr;
 }
