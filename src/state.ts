@@ -222,6 +222,10 @@ export default class State {
 
     // interacting with json data
     private readData() {
+        if (!fs.existsSync("data")) {
+            fs.mkdirSync("data");
+        }
+
         this.studentsArr = JSON.parse(
             fs.readFileSync("data/students.json").toString()
         );
@@ -308,13 +312,21 @@ export default class State {
 
     // construct instance
     constructor() {
+        // ensure files exist
+        if (!fs.existsSync("data")) {
+            fs.mkdirSync("data");
+        }
+        if (!fs.existsSync("data/students.json")) {
+            fs.writeFileSync("data/students.json", "[]");
+        }
+        if (!fs.existsSync("data/events.json")) {
+            fs.writeFileSync("data/events.json", "[]");
+        }
+        
         // arrays
         this.studentsArr = [];
         this.eventsArr = [];
         this.readData();
-
-        // see if data files exists
-        // if 
 
         // get last ids
         let greatestStudentId = 0;

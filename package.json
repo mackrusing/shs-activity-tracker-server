@@ -6,7 +6,6 @@
   "scripts": {
     "start": "node build/main.js",
     "test": "npx nodemon build/main.js",
-    "install": "",
     "build": "npx tsc",
     "clean": "rm -r node_modules/ && rm -r build/ && rm -r data/",
     "watch-ts": "npx tsc -w"
