@@ -335,44 +335,44 @@ export default class State {
     }
 }
 
-function sanitizeStudentArr(input: any): JsonStudent[] | undefined {
-    const cleanArr: JsonStudent[] = [];
+// function sanitizeStudentArr(input: any): JsonStudent[] | undefined {
+//     const cleanArr: JsonStudent[] = [];
 
-    // check & sanatize data
-    for (const item of input) {
+//     // check & sanatize data
+//     for (const item of input) {
 
-        // check top-level types
-        if (typeof item.id !== "number") {
-            return undefined;
-        }
-        if (typeof item.first_name !== "string") {
-            return undefined;
-        }
-        if (typeof item.last_name !== "string") {
-            return undefined;
-        }
-        if (item.grade_lvl !== 9 && item.grade_lvl !== 10 && item.grade_lvl !== 11 && item.grade_lvl !== 12) {
-            return undefined;
-        }
+//         // check top-level types
+//         if (typeof item.id !== "number") {
+//             return undefined;
+//         }
+//         if (typeof item.first_name !== "string") {
+//             return undefined;
+//         }
+//         if (typeof item.last_name !== "string") {
+//             return undefined;
+//         }
+//         if (item.grade_lvl !== 9 && item.grade_lvl !== 10 && item.grade_lvl !== 11 && item.grade_lvl !== 12) {
+//             return undefined;
+//         }
 
-        // check completed events arr
-        const cleanCompletedEvents: number[] = [];
-        for (const event of item.completed_events) {
-            if (typeof event !== "number") {
-                return undefined;
-            }
+//         // check completed events arr
+//         const cleanCompletedEvents: number[] = [];
+//         for (const event of item.completed_events) {
+//             if (typeof event !== "number") {
+//                 return undefined;
+//             }
 
-            cleanCompletedEvents.push(event);
-        }
+//             cleanCompletedEvents.push(event);
+//         }
 
-        cleanArr.push({
-            id: item.id,
-            first_name: item.first_name,
-            last_name: item.last_name,
-            grade_lvl: item.grade_lvl,
-            completed_events: cleanCompletedEvents
-        });
-    }
+//         cleanArr.push({
+//             id: item.id,
+//             first_name: item.first_name,
+//             last_name: item.last_name,
+//             grade_lvl: item.grade_lvl,
+//             completed_events: cleanCompletedEvents
+//         });
+//     }
 
-    return cleanArr;
-}
+//     return cleanArr;
+// }
