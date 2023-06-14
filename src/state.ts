@@ -220,6 +220,29 @@ export default class State {
     // helper methods
     //
 
+    // reset to sample data
+    resetData() {
+        const students = [
+            {
+                id: 1,
+                first_name: "",
+                last_name: "",
+                grade_lvl: 9,
+                completed_events: [],
+            }
+        ];
+        const events = [
+            {
+                id: 1,
+                name: "",
+                points: 0,
+            }
+        ];
+        fs.writeFileSync("data/students.json", JSON.stringify(students));
+        fs.writeFileSync("data/events.json", JSON.stringify(events));
+        this.readData();
+    }
+
     // interacting with json data
     private readData() {
         if (!fs.existsSync("data")) {

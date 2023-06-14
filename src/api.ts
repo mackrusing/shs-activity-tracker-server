@@ -303,9 +303,10 @@ api.route("/events/:id.json")
     );
 
 
-// api.put("/utils/reset_data", 
-//     authAdmin,
-//     (res: Response) => {
-
-//     }
-// );
+api.put("/utils/reset_data", 
+    authAdmin,
+    (_req, res: Response) => {
+        state().resetData();
+        return res.status(200).json(ApiResponse.ok(null));
+    }
+);
