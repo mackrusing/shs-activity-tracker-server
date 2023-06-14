@@ -1,4 +1,4 @@
-import express, { type Express, type Request, type Response } from "express";
+import express, { type Express, type Request, type Response, type NextFunction } from "express";
 import { ApiResponse } from "./api/response";
 import { GradeLvl, JsonEvent, JsonStudent } from "./types";
 import validate from "./api/validation";
@@ -21,6 +21,14 @@ declare module "express-serve-static-core" {
     }
 }
 
+function authAdmin(req: Request, res: Response, next: NextFunction) {
+    const b64 = btoa("admin:pass");
+    if (req.headers.authorization !== `Basic ${b64}`) {
+        return res.status(401).send(ApiResponse.error("Authentication required"));
+    }
+    return next();
+}
+
 const api: Express = express();
 export default api;
 
@@ -30,6 +38,10 @@ api.on("mount", (app) => {
 
 // middleware
 api.use("/", express.urlencoded());
+api.use("/", (_req: Request, res: Response, next: NextFunction) => {
+    res.set("Access-Control-Allow-Origin", "*");
+    next();
+})
 
 //
 // students endpoints
@@ -55,6 +67,7 @@ api.route("/students.json")
         }
     )
     .post(
+        authAdmin,
         validate.reqFirstName,
         validate.reqLirstName,
         validate.reqGradeLvl,
@@ -85,6 +98,7 @@ api.route("/students/:id.json")
         return res.status(200).json(ApiResponse.ok(req.validatedStudent));
     })
     .put(
+        authAdmin,
         validate.reqFirstName,
         validate.reqLirstName,
         validate.reqGradeLvl,
@@ -108,6 +122,7 @@ api.route("/students/:id.json")
         }
     )
     .patch(
+        authAdmin,
         validate.student,
         validate.optFirstName,
         validate.optLirstName,
@@ -126,59 +141,71 @@ api.route("/students/:id.json")
             return res.status(200).json(ApiResponse.ok(null));
         }
     )
-    .delete(validate.student, (req, res) => {
-        if (!req.validatedId) {
-            return panic();
-        }
+    .delete(
+        authAdmin,
+        validate.student,
+        (req, res) => {
+            if (!req.validatedId) {
+                return panic();
+            }
 
-        state().deleteStudent(req.validatedId);
-        return res.status(200).json(ApiResponse.ok(null));
-    });
+            state().deleteStudent(req.validatedId);
+            return res.status(200).json(ApiResponse.ok(null));
+        }
+    );
 
 api.route("/students/:id/completed_events.json")
     .all(validate.id, validate.student)
-    .post(validate.reqEventId, (req, res) => {
-        if (!req.validatedStudent || !req.validatedEventId) {
-            return panic();
-        }
+    .post(
+        authAdmin,
+        validate.reqEventId,
+        (req, res) => {
+            if (!req.validatedStudent || !req.validatedEventId) {
+                return panic();
+            }
 
-        const success = state().addEventIdToStudent(
-            req.validatedStudent,
-            req.validatedEventId
-        );
-        if (!success) {
-            return res
-                .status(400)
-                .json(
-                    ApiResponse.error(
-                        "event_id must exist and not already be added"
-                    )
-                );
-        }
+            const success = state().addEventIdToStudent(
+                req.validatedStudent,
+                req.validatedEventId
+            );
+            if (!success) {
+                return res
+                    .status(400)
+                    .json(
+                        ApiResponse.error(
+                            "event_id must exist and not already be added"
+                        )
+                    );
+            }
 
-        return res.status(200).json(ApiResponse.ok(null));
-    })
-    .patch(validate.reqEventId, (req, res) => {
-        if (!req.validatedStudent || !req.validatedEventId) {
-            return panic();
+            return res.status(200).json(ApiResponse.ok(null));
         }
+    )
+    .patch(
+        authAdmin,
+        validate.reqEventId,
+        (req, res) => {
+            if (!req.validatedStudent || !req.validatedEventId) {
+                return panic();
+            }
 
-        const success = state().removeEventIdFromStudent(
-            req.validatedStudent,
-            req.validatedEventId
-        );
-        if (!success) {
-            return res
-                .status(400)
-                .json(
-                    ApiResponse.error(
-                        "event_id must be in the student's completed events"
-                    )
-                );
+            const success = state().removeEventIdFromStudent(
+                req.validatedStudent,
+                req.validatedEventId
+            );
+            if (!success) {
+                return res
+                    .status(400)
+                    .json(
+                        ApiResponse.error(
+                            "event_id must be in the student's completed events"
+                        )
+                    );
+            }
+
+            return res.status(200).json(ApiResponse.ok(null));
         }
-
-        return res.status(200).json(ApiResponse.ok(null));
-    });
+    );
 
 //
 // events endpoints
@@ -202,6 +229,7 @@ api.route("/events.json")
         }
     )
     .post(
+        authAdmin,
         validate.reqName,
         validate.reqPoints,
         (req: Request, res: Response) => {
@@ -223,6 +251,7 @@ api.route("/events/:id.json")
         return res.status(200).json(ApiResponse.ok(req.validatedEvent));
     })
     .put(
+        authAdmin,
         validate.reqName,
         validate.reqPoints,
         (req: Request, res: Response) => {
@@ -243,6 +272,7 @@ api.route("/events/:id.json")
         }
     )
     .patch(
+        authAdmin,
         validate.event,
         validate.optName,
         validate.optPoints,
@@ -259,11 +289,23 @@ api.route("/events/:id.json")
             return res.status(200).json(ApiResponse.ok(null));
         }
     )
-    .delete(validate.event, (req: Request, res: Response) => {
-        if (!req.validatedId) {
-            return panic();
-        }
+    .delete(
+        authAdmin,
+        validate.event,
+        (req: Request, res: Response) => {
+            if (!req.validatedId) {
+                return panic();
+            }
 
-        state().deleteEvent(req.validatedId);
-        return res.status(200).json(ApiResponse.ok(null));
-    });
+            state().deleteEvent(req.validatedId);
+            return res.status(200).json(ApiResponse.ok(null));
+        }
+    );
+
+
+// api.put("/utils/reset_data", 
+//     authAdmin,
+//     (res: Response) => {
+
+//     }
+// );

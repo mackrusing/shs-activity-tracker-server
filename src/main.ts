@@ -13,7 +13,7 @@ const appState = new State();
 app.set("appState", appState);
 
 // routes
-app.use("/api", api);
+app.use(api);
 
 // make public
 app.listen(app.get("PORT"), () => {
