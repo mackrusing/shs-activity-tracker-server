@@ -303,7 +303,7 @@ api.route("/events/:id.json")
     );
 
 
-api.put("/utils/reset_data", 
+api.put("/utils/reset_data",
     authAdmin,
     (_req, res: Response) => {
         state().resetData();

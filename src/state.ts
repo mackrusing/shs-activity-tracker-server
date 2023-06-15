@@ -225,18 +225,140 @@ export default class State {
         const students = [
             {
                 id: 1,
-                first_name: "",
-                last_name: "",
+                first_name: "Charlie",
+                last_name: "Spring",
+                grade_lvl: 10,
+                completed_events: [],
+            },
+            {
+                id: 2,
+                first_name: "Nick",
+                last_name: "Nelson",
+                grade_lvl: 11,
+                completed_events: [],
+            },
+            {
+                id: 3,
+                first_name: "Tori",
+                last_name: "Spring",
+                grade_lvl: 12,
+                completed_events: [],
+            },
+            {
+                id: 4,
+                first_name: "Elle",
+                last_name: "Argent",
                 grade_lvl: 9,
                 completed_events: [],
-            }
+            },
+            {
+                id: 5,
+                first_name: "Tara",
+                last_name: "Jones",
+                grade_lvl: 11,
+                completed_events: [],
+            },
+            {
+                id: 6,
+                first_name: "Darcy",
+                last_name: "Olsson",
+                grade_lvl: 11,
+                completed_events: [],
+            },
+            {
+                id: 7,
+                first_name: "Aled",
+                last_name: "Last",
+                grade_lvl: 10,
+                completed_events: [],
+            },
+            {
+                id: 8,
+                first_name: "Ben",
+                last_name: "Hope",
+                grade_lvl: 12,
+                completed_events: [],
+            },
+            {
+                id: 9,
+                first_name: "Michael",
+                last_name: "Holden",
+                grade_lvl: 12,
+                completed_events: [],
+            },
+            {
+                id: 10,
+                first_name: "Tao",
+                last_name: "Xu",
+                grade_lvl: 10,
+                completed_events: [],
+            },
+            {
+                id: 11,
+                first_name: "Isacc",
+                last_name: "Henderson",
+                grade_lvl: 9,
+                completed_events: [],
+            },
+            {
+                id: 12,
+                first_name: "Imogen",
+                last_name: "Heaney",
+                grade_lvl: 9,
+                completed_events: [],
+            },
         ];
         const events = [
             {
                 id: 1,
-                name: "",
-                points: 0,
-            }
+                name: "Rugby Game",
+                points: 20,
+            },
+            {
+                id: 2,
+                name: "Basketball Game",
+                points: 5,
+            },
+            {
+                id: 3,
+                name: "Vollyball Game",
+                points: 10,
+            },
+            {
+                id: 4,
+                name: "Football Game",
+                points: 5,
+            },
+            {
+                id: 5,
+                name: "Tennis Match",
+                points: 5,
+            },
+            {
+                id: 6,
+                name: "Band Concert",
+                points: 20,
+            },
+            {
+                id: 7,
+                name: "Choir Concert",
+                points: 10,
+            },
+            {
+                id: 8,
+                name: "Theater Production",
+                points: 5,
+            },
+            {
+                id: 9,
+                name: "Movie Night",
+                points: 5,
+            },
+            {
+                id: 10,
+                name: "Graduation Ceremony",
+                points: 5,
+            },
         ];
         fs.writeFileSync("data/students.json", JSON.stringify(students));
         fs.writeFileSync("data/events.json", JSON.stringify(events));
