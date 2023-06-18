@@ -40,6 +40,7 @@ api.on("mount", (app) => {
 api.use("/", express.urlencoded());
 api.use("/", (_req: Request, res: Response, next: NextFunction) => {
     res.set("Access-Control-Allow-Origin", "*");
+    res.set("Access-Control-Allow-Headers", "Authorization");
     res.set("Cache-Control", "no-cache");
     next();
 })
