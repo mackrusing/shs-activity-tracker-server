@@ -363,6 +363,8 @@ export default class State {
         fs.writeFileSync("data/students.json", JSON.stringify(students));
         fs.writeFileSync("data/events.json", JSON.stringify(events));
         this.readData();
+        this.lastStudentId = 12;
+        this.lastEventId = 10;
     }
 
     // interacting with json data
