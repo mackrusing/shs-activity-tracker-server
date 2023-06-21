@@ -158,6 +158,12 @@ api.route("/students/:id.json")
 
 api.route("/students/:id/completed_events.json")
     .all(validate.id, validate.student)
+    .options(
+        (_req: Request, res: Response) => {
+            res.set("Allow", "POST,PATCH");
+            return res.status(200).send("POST,PATCH");
+        }
+    )
     .post(
         authAdmin,
         validate.reqEventId,
@@ -214,11 +220,6 @@ api.route("/students/:id/completed_events.json")
 //
 
 api.route("/events.json")
-    .options(
-        (_req: Request, res: Response) => {
-            return res.status(200).send();
-        }
-    )
     .get(
         validate.optName,
         validate.optPoints,
